@@ -1,0 +1,105 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap");
+@import "tailwindcss";
+:root {
+  font-family: "Open Sans", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(0, 0, 0, 0.87);
+  background-color: #ffffff;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+  overflow-x: hidden !important;
+}
+
+
+@layer components {
+  .btn-primary {
+    @apply px-6 py-3.5 rounded-full bg-blue-700 text-white font-bold cursor-pointer relative overflow-hidden;
+    transition: color 0.3s ease, background-color 0.3s ease;
+  }
+
+  /* Pseudo-element for bottom-to-top hover animation */
+  .btn-primary::after {
+    content: "";
+    @apply absolute left-0 bottom-0 w-full h-0 bg-black rounded-full z-0;
+    transition: height 0.3s ease;
+  }
+
+  .btn-primary:hover::after {
+    @apply h-full;
+  }
+
+  .btn-primary:hover {
+    @apply text-white z-10;
+  }
+
+  .btn-primary:hover .btn-icon {
+    transform: translateX(4px); /* moves icon 4px right */
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3.5 rounded-full bg-blue-600 text-white font-bold cursor-pointer relative overflow-hidden;
+    transition: color 0.3s ease, background-color 0.3s ease;
+  }
+
+  .btn-secondary::after {
+    content: "";
+    @apply absolute left-0 bottom-0 w-full h-0 bg-white rounded-full z-0;
+    transition: height 0.3s ease;
+  }
+
+  .btn-secondary:hover::after {
+    @apply h-full;
+  }
+
+  .btn-secondary:hover {
+    @apply text-blue-700;
+  }
+
+  .btn-secondary:hover .btn-icon {
+    transform: translateX(-4px);
+    color: blue;
+  }
+
+  .box-shape::before {
+    content: "";
+    position: absolute;
+    right: -1px;
+    bottom: -1px;
+    mask: url("https://demo.awaikenthemes.com/denture/wp-content/themes/denture/assets/images/readmore-btn-bg-shape.svg");
+    mask-repeat: none;
+    mask-position: right bottom;
+    mask-size: cover;
+    width: 120px;
+    height: 110px;
+    z-index: 99;
+  }
+
+  /* Bottom-left character */
+  @keyframes movestyle1 {
+    0% {
+      transform: translateY(0) rotate(-20deg);
+    }
+    100% {
+      transform: translateY(-25px) rotate(-18deg);
+    }
+  }
+
+  /* Top-right character */
+  @keyframes movestyle2 {
+    0% {
+      transform: translateY(0) rotate(20deg);
+    }
+    100% {
+      transform: translateY(25px) rotate(22deg);
+    }
+  }
+}

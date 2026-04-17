@@ -71,7 +71,7 @@ It allows users to explore services, book appointments, and send inquiries, whil
 git clone https://github.com/your-username/denture-dental-clinic.git
 cd denture-dental-clinic
 
-2️⃣ Backend Setup
+### 2️⃣ Backend Setup
 cd BackEnd
 npm install
 Create .env file:

@@ -171,34 +171,33 @@ function BeforeAfter() {
   const [activeTab, setActiveTab] = useState(1);
 
   return (
-    <section className="py-24 px-6 overflow-hidden">
-      <div className="text-center mb-20 max-w-3xl mx-auto px-4">
+    <section className="py-12 sm:py-16 lg:py-24 px-4 sm:px-6 overflow-hidden">
+      <div className="text-center mb-12 sm:mb-16 lg:mb-20 max-w-3xl mx-auto px-2">
         <div className="flex items-center justify-center gap-3 mb-4">
           <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
           <span className="text-sm text-blue-500 font-bold tracking-widest uppercase">
             Before & After
           </span>
         </div>
-        <h2 className="text-4xl font-bold text-center leading-tight">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center leading-tight">
           See stunning smile transformation before and after
         </h2>
       </div>
-
       <div className="beforeAfter">
-        <div className="tabs flex flex-wrap justify-between gap-4 mb-12 border-b-4 border-gray-200">
+        <div className="tabs flex overflow-x-auto snap-x gap-2 pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap sm:justify-between sm:overflow-visible mb-8 sm:mb-12 border-b-4 border-gray-200">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-6 py-8 text-lg font-medium transition-all duration-300 relative cursor-pointer ${
+              className={`flex-shrink-0 snap-start px-3 py-4 sm:px-5 sm:py-6 lg:px-6 lg:py-8 text-sm sm:text-base lg:text-lg font-medium transition-all duration-300 relative cursor-pointer ${
                 activeTab === tab.id
                   ? "text-blue-600"
                   : "text-gray-500 hover:text-gray-700"
               }`}
             >
-              <div className="flex items-center justify-center gap-4">
-                <span className="w-6 h-6">{tab.icon}</span>
-                <span className="text-md font-medium">{tab.title}</span>
+              <div className="flex items-center justify-center gap-2 sm:gap-4 whitespace-nowrap">
+                <span className="w-5 h-5 sm:w-6 sm:h-6 shrink-0">{tab.icon}</span>
+                <span className="font-medium">{tab.title}</span>
               </div>
 
               {activeTab === tab.id && (
@@ -218,7 +217,7 @@ function BeforeAfter() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -30 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="gallery grid grid-cols-1 md:grid-cols-3 gap-8 mt-12"
+            className="gallery grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mt-8 sm:mt-12"
           >
             {galleryData[activeTab].map((item, index) => (
               <motion.div

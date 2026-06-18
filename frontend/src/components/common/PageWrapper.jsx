@@ -1,5 +1,5 @@
-// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
+import Container from "./Container";
 
 function PageWrapper({ children }) {
   return (
@@ -9,8 +9,9 @@ function PageWrapper({ children }) {
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.4, ease: "easeInOut" }}
     >
-      {children}
+      <Container className="py-4">{children}</Container>
     </motion.div>
   );
 }
+
 export default PageWrapper;

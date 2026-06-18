@@ -2,6 +2,17 @@ const Service = require("../models/serviceModel");
 const cloudinary = require("../utilis/cloudinary");
 const fs = require("fs");
 
+const parseSubCat = (subCat) => {
+    if (!subCat) return [];
+    if (Array.isArray(subCat)) return subCat;
+    try {
+        const parsed = JSON.parse(subCat);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch {
+        return String(subCat).split(',').map((s) => s.trim()).filter(Boolean);
+    }
+};
+
 const getAllServices = async (req, res) => {
   try {
     const services = await Service.find();
@@ -56,7 +67,7 @@ const createService = async (req, res) => {
     const newService = await Service.create({
       category,
       description,
-      subCat,
+      subCat: parseSubCat(subCat),
       img_url: imageURL,
       imagePublicId: uploadResult.public_id,
       price,
@@ -87,7 +98,7 @@ const updateServiceByID = async (req, res) => {
     let updateData = {
       category: category || service.category,
       description: description || service.description,
-      subCat: subCat || service.subCat,
+      subCat: subCat !== undefined ? parseSubCat(subCat) : service.subCat,
       price: price || service.price,
     };
 

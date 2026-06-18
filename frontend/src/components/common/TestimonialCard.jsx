@@ -130,7 +130,7 @@ for (let i = 0; i < TESTIMONIALS.length; i += 3) {
 const CustomDot = ({ onClick, active }) => (
   <button
     onClick={onClick}
-    className={`hidden md:block w-3 h-3 rounded-full mx-1 transition-all duration-300 cursor-pointer ${
+    className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full mx-1 transition-all duration-300 cursor-pointer ${
       active
         ? "bg-blue-600 border border-white/50 scale-125"
         : "bg-gray-300 hover:bg-blue-600"
@@ -156,7 +156,7 @@ function TestimonialCard() {
         {GroupTestimonials.map((group, groupIndex) => (
           <div
             key={groupIndex}
-            className="grid grid-cols-1 md:flex md:flex-row gap-6 px-2 sm:px-4"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-2 sm:px-4"
           >
             <AnimatePresence mode="wait">
               {group.map((t, index) => (
@@ -170,9 +170,9 @@ function TestimonialCard() {
                     delay: index * 0.15,
                     ease: "easeOut",
                   }}
-                  className="flex-1 min-w-[90%] mx-auto md:min-w-0"
+                  className="w-full min-w-0"
                 >
-                  <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 flex flex-col h-full hover:shadow-xl transition-shadow duration-300">
+                  <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-8 flex flex-col h-full hover:shadow-xl transition-shadow duration-300">
                     <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
@@ -208,8 +208,8 @@ function TestimonialCard() {
 
                     <hr className="my-6 border-gray-300" />
 
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-3 sm:gap-4 min-w-0">
                         <motion.div
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
@@ -234,10 +234,10 @@ function TestimonialCard() {
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: 0.7 }}
                         >
-                          <h4 className="font-semibold text-gray-900">
+                          <h4 className="font-semibold text-gray-900 text-sm sm:text-base truncate">
                             {t.name}
                           </h4>
-                          <p className="text-sm text-gray-500">{t.role}</p>
+                          <p className="text-xs sm:text-sm text-gray-500 truncate">{t.role}</p>
                         </motion.div>
                       </div>
 
@@ -250,7 +250,7 @@ function TestimonialCard() {
                           stiffness: 150,
                         }}
                       >
-                        <Quote className="w-10 h-10 fill-blue-600 text-blue-600" />
+                        <Quote className="w-8 h-8 sm:w-10 sm:h-10 fill-blue-600 text-blue-600 shrink-0" />
                       </motion.div>
                     </div>
                   </div>

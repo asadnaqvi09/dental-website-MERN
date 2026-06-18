@@ -10,7 +10,6 @@ import doc2 from "../../../assets/images/doctor2.png";
 import doc3 from "../../../assets/images/doctor3.png";
 import doc4 from "../../../assets/images/doctor4.png";
 
-// Variants
 const container = {
   hidden: { opacity: 0 },
   visible: {
@@ -62,13 +61,12 @@ function HeroSection() {
         backgroundPosition: "center",
       }}
       className="heroSection text-white rounded-3xl mb-12 overflow-hidden overflow-x-hidden"
-    >
-      {/* HERO TOP */}
+      >
       <motion.div
         initial="hidden"
         animate="visible"
         variants={container}
-        className="py-16 px-6 flex flex-col items-center justify-center relative"
+        className="py-12 sm:py-16 px-4 sm:px-6 flex flex-col items-center justify-center relative"
       >
         <motion.div
           variants={scaleIn}
@@ -93,7 +91,7 @@ function HeroSection() {
         </motion.div>
 
         <motion.div variants={fadeItem} className="mt-6 text-center max-w-3xl">
-          <h1 className="text-3xl sm:text-6xl font-bold leading-tight flex flex-wrap justify-center gap-2">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight flex flex-wrap justify-center gap-2">
             Transforming
             <motion.span
               initial={{ scale: 0.8, opacity: 0 }}
@@ -104,7 +102,7 @@ function HeroSection() {
               <LazyLoadImage
                 src="https://demo.awaikenthemes.com/denture/wp-content/uploads/2025/09/hero-title-image.jpg"
                 alt="smile"
-                className="w-28 rounded-full object-cover transition-all duration-300 hover:scale-110"
+                className="w-16 sm:w-20 md:w-28 rounded-full object-cover transition-all duration-300 hover:scale-110"
               />
               smiles
             </motion.span>
@@ -113,7 +111,7 @@ function HeroSection() {
 
           <motion.p
             variants={fadeUp}
-            className="mt-8 text-lg font-medium max-w-2xl mx-auto opacity-90"
+            className="mt-8 text-base sm:text-lg font-medium max-w-2xl mx-auto opacity-90 px-2"
           >
             Experience personalized dental treatment designed to restore,
             protect, and enhance your smile with comfort and confidence.
@@ -150,22 +148,19 @@ function HeroSection() {
           </NavLink>
         </motion.div>
       </motion.div>
-
-      {/* INTRO CARDS */}
       <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
         variants={container}
-        className="introCards grid grid-cols-1 md:grid-cols-4 gap-4 py-8 mx-6 overflow-x-hidden"
+        className="introCards grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 py-6 sm:py-8 mx-4 sm:mx-6 overflow-x-hidden"
       >
-        {/* CARD 1 */}
         <motion.div
           variants={fadeItem}
           className="bg-white/10 px-5 py-4 rounded-2xl backdrop-blur-sm"
         >
-          <div className="flex items-center justify-between mb-20">
-            <h1 className="text-xl font-bold max-w-xl">
+          <div className="flex items-center justify-between mb-8 sm:mb-12 lg:mb-20 gap-3">
+            <h1 className="text-lg sm:text-xl font-bold">
               Comprehensive Dental Care
             </h1>
 
@@ -202,8 +197,6 @@ function HeroSection() {
             <p>Dental Professionals</p>
           </div>
         </motion.div>
-
-        {/* CARD 2 */}
         <motion.div
           variants={fadeItem}
           style={{
@@ -211,7 +204,7 @@ function HeroSection() {
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
-          className="relative p-4 h-80 rounded-2xl overflow-hidden flex flex-col justify-end"
+          className="relative p-4 h-64 sm:h-72 lg:h-80 rounded-2xl overflow-hidden flex flex-col justify-end"
         >
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent rounded-2xl" />
 
@@ -233,30 +226,27 @@ function HeroSection() {
             </div>
           </div>
         </motion.div>
-
-        {/* CARD 3 */}
         <motion.div
           variants={fadeItem}
-          className="bg-white/10 p-6 rounded-3xl text-white shadow-xl backdrop-blur-sm"
+          className="bg-white/10 p-4 sm:p-6 rounded-3xl text-white shadow-xl backdrop-blur-sm"
         >
           <div className="flex items-center gap-3 border-b border-white/20 pb-4">
             <Clock className="w-6 h-6 text-white/90" />
             <h2 className="text-xl font-semibold">Opening Hours</h2>
           </div>
 
-          <div className="mt-6 space-y-6 text-[17px]">
-            <div className="flex justify-between">
+          <div className="mt-6 space-y-6 text-base sm:text-[17px]">
+            <div className="flex flex-wrap justify-between gap-2">
               <span className="opacity-90">Mon to Sat:</span>
               <span className="font-medium">9AM to 9PM</span>
             </div>
-
-            <div className="flex justify-between pt-4 border-t border-white/10">
+            <div className="flex flex-wrap justify-between gap-2 pt-4 border-t border-white/10">
               <span className="opacity-90">Sunday:</span>
               <span className="font-medium">Closed</span>
             </div>
           </div>
 
-          <div className="hidden md:block btn-primary mt-6">
+          <div className="btn-primary mt-6 w-full">
             <NavLink to="/book-appointment">
               <span className="flex items-center justify-center relative z-10">
                 <span>Book Appointment</span>
@@ -280,11 +270,9 @@ function HeroSection() {
             </NavLink>
           </div>
         </motion.div>
-
-        {/* CARD 4 */}
         <motion.div
           variants={fadeItem}
-          className="relative rounded-3xl overflow-hidden shadow-xl"
+          className="relative rounded-3xl overflow-hidden shadow-xl min-h-[280px] sm:min-h-[320px]"
         >
           <img
             src="https://demo.awaikenthemes.com/denture/wp-content/uploads/2025/09/hero-info-item-image-2.jpg"
@@ -308,14 +296,13 @@ function HeroSection() {
             </svg>
           </button>
 
-          <div className="absolute bottom-6 left-6 right-6 bg-white/20 backdrop-blur-xl rounded-2xl p-5 text-white border border-white/20">
-            <div className="flex items-center gap-3 text-lg">
-              <Phone className="w-6 h-6 text-white/90" />
+          <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 bg-white/20 backdrop-blur-xl rounded-2xl p-4 sm:p-5 text-white border border-white/20 min-w-0">
+            <div className="flex items-center gap-3 text-base sm:text-lg break-all sm:break-normal">
+              <Phone className="w-6 h-6 text-white/90 shrink-0" />
               +00-123-254-896
             </div>
-
-            <div className="flex items-center gap-3 mt-3 text-md">
-              <Mail className="w-6 h-6 text-white/90" />
+            <div className="flex items-center gap-3 mt-3 text-sm sm:text-md break-all sm:break-normal">
+              <Mail className="w-6 h-6 text-white/90 shrink-0" />
               support@domain.cc
             </div>
           </div>

@@ -4,28 +4,28 @@ import FaqQuestion from "./FaqQuestion";
 
 function Faq() {
   return (
-    <section className="flex flex-col md:flex-row mb-12">
+    <section className="flex flex-col md:flex-row gap-8 mb-12">
       <div className="faqInfo w-full md:w-1/2 flex flex-col">
-        <div className="faqHeading text-start mb-10 max-w-2xl mx-auto">
+        <div className="faqHeading text-start mb-10 max-w-2xl w-full">
           <div className="flex items-center gap-2 mb-4">
             <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
             <span className="text-md text-blue-500 font-semibold tracking-widest uppercase">
               Faq's
             </span>
           </div>
-          <div className="mainHead text-4xl font-bold text-primary text-start mb-4">
+          <div className="mainHead text-2xl sm:text-3xl lg:text-4xl font-bold text-primary text-start mb-4">
             Frequently asked questions about your dental care
           </div>
         </div>
-        <div className="faqBox flex flex-col w-[500px] p-12 bg-blue-800 rounded-3xl text-start">
+        <div className="faqBox flex flex-col w-full max-w-[500px] p-6 sm:p-8 md:p-12 bg-blue-800 rounded-3xl text-start">
           <div className="heading flex flex-col gap-2 mb-6">
             <h1 className="text-2xl font-bold text-white">
               Still have a dental question?
             </h1>
             <p className="text-lg font-medium text-white/80">
-            Can't find the answer you're looking for? Contact our dental team
-            for personalized help.
-          </p>
+              Can't find the answer you're looking for? Contact our dental team
+              for personalized help.
+            </p>
           </div>
           <NavLink
             to="/book-appointment"
@@ -35,7 +35,7 @@ function Faq() {
           </NavLink>
         </div>
       </div>
-      <div className="faqQuestions w-full md:w-1/2">
+      <div className="faqQuestions w-full md:w-1/2 min-w-0">
         <FaqQuestion />
       </div>
     </section>

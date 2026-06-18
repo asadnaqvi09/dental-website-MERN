@@ -6,11 +6,11 @@ import ContactUs from './components/ContactUs'
 function Contact() {
   useTitle("Contact");
   return (
-    <div className='mx-6 my-4'>
+    <>
       <ContactHero />
       <ContactUs />
-    </div>
-  )
+    </>
+  );
 }
 
 export default Contact

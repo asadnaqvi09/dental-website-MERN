@@ -22,7 +22,7 @@ function About() {
   }, []);
 
   return (
-    <section className="flex flex-col md:flex-row gap-4 mb-12">
+    <section className="flex flex-col md:flex-row gap-8 md:gap-4 mb-12">
       <motion.aside
         initial={{ opacity: 0, x: -80 }}
         whileInView={{ opacity: 1, x: 0 }}
@@ -45,7 +45,7 @@ function About() {
           </motion.div>
         </figure>
 
-        <div className="subImg w-full md:w-[40%] flex flex-row md:flex-col justify-between items-center md:items-start gap-4 md:gap-6">
+        <div className="subImg w-full md:w-[40%] flex flex-col sm:flex-row md:flex-col justify-center sm:justify-between items-center md:items-start gap-4 md:gap-6">
           <motion.figure
             initial={{ y: 60, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
@@ -55,7 +55,7 @@ function About() {
             <LazyLoadImage
               src="https://demo.awaikenthemes.com/denture/wp-content/uploads/2025/09/about-us-image-2.jpg"
               alt="aboutImg2"
-              className="w-[180px] h-[240px] sm:w-[200px] sm:h-[260px] object-cover rounded-xl shadow-xl"
+              className="w-full max-w-[180px] sm:max-w-[200px] h-[240px] sm:h-[260px] object-cover rounded-xl shadow-xl"
             />
           </motion.figure>
 
@@ -64,7 +64,7 @@ function About() {
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 1, duration: 0.7, type: "spring", stiffness: 120 }}
-            className="cardContent w-[180px] sm:w-[200px] p-5 sm:p-6 flex flex-col justify-between border border-gray-300 rounded-md bg-white shadow-lg"
+            className="cardContent w-full max-w-[180px] sm:max-w-[200px] p-5 sm:p-6 flex flex-col justify-between border border-gray-300 rounded-md bg-white shadow-lg"
           >
             <div className="rating flex flex-col items-start gap-1.5 mb-6">
               <h3 className="text-3xl font-bold text-primary">
@@ -93,7 +93,7 @@ function About() {
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="about-info w-full md:w-[55%] text-start flex flex-col justify-center pl-4 md:pl-10"
+        className="about-info w-full md:w-[55%] text-start flex flex-col justify-center px-0 sm:pl-4 md:pl-10 min-w-0"
       >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -109,7 +109,7 @@ function About() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.8 }}
-          className="text-5xl font-bold leading-tight mb-4 max-w-[575px] md:max-w-[550px]"
+          className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-4 max-w-[575px] md:max-w-[550px]"
         >
           Your trusted dental partner for every family member
         </motion.h1>
@@ -132,7 +132,7 @@ function About() {
             hidden: {},
             visible: { transition: { staggerChildren: 0.2 } },
           }}
-          className="flex flex-col md:flex-row gap-6 mb-8"
+          className="flex flex-col sm:flex-row gap-4 sm:gap-6 md:gap-6 mb-8"
         >
           {Features.map((item, index) => (
             <motion.li

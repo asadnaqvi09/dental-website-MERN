@@ -10,7 +10,7 @@ function Footer() {
     { id: 1, name: "Home", path: "/" },
     { id: 2, name: "About Us", path: "/about" },
     { id: 3, name: "Services", path: "/service" },
-    { id: 4, name: "Appointment", path: "/appointment" },
+    { id: 4, name: "Appointment", path: "/book-appointment" },
   ];
 
   const services = [
@@ -33,23 +33,18 @@ function Footer() {
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
-      className="rounded-xl text-white py-14 px-10 mx-6 my-6"
+      className="rounded-xl text-white py-10 sm:py-14 px-4 sm:px-6 lg:px-10 my-6"
     >
-      {/* MAIN GRID */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-        
-        {/* BRAND SECTION */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
         <div className="flex flex-col gap-4">
           <LazyLoadImage
             src={Denture}
             alt="Denture Dental Clinic"
-            width="180"
+            className="w-32 sm:w-40 lg:w-[180px] h-auto"
           />
-
-          <p className="font-medium text-md leading-relaxed max-w-xs">
+          <p className="font-medium text-sm sm:text-base leading-relaxed max-w-xs">
             Comprehensive dental services, confident smiles through, personalized care.
           </p>
-
           <div className="flex gap-3">
             {socials.map(({ icon: Icon, href }, idx) => (
               <a
@@ -57,63 +52,53 @@ function Footer() {
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-11 h-11 border border-white rounded-full flex items-center justify-center hover:bg-white hover:text-black transition"
+                className="w-10 h-10 sm:w-11 sm:h-11 border border-white rounded-full flex items-center justify-center hover:bg-white hover:text-black transition"
               >
-                <Icon className="w-5 h-5" />
+                <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
               </a>
             ))}
           </div>
         </div>
-
-        {/* QUICK LINKS */}
         <div>
-          <h3 className="text-2xl font-bold mb-4">Quick Links</h3>
-
+          <h3 className="text-xl sm:text-2xl font-bold mb-4">Quick Links</h3>
           <ul className="space-y-3">
             {quickLinks.map((item) => (
               <li key={item.id}>
                 <NavLink
                   to={item.path}
-                  className="flex items-center text-white hover:text-blue-300 transition font-medium"
+                  className="flex items-center text-white hover:text-blue-300 transition font-medium text-sm sm:text-base"
                 >
-                  <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
+                  <span className="w-2 h-2 bg-blue-400 rounded-full shrink-0"></span>
                   <span className="ml-3">{item.name}</span>
                 </NavLink>
               </li>
             ))}
           </ul>
         </div>
-
-        {/* SERVICES */}
         <div>
-          <h3 className="text-2xl font-bold mb-4">Our Services</h3>
-
+          <h3 className="text-xl sm:text-2xl font-bold mb-4">Our Services</h3>
           <ul className="space-y-3">
             {services.map((service, index) => (
-              <li key={index} className="flex items-center font-medium">
-                <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
+              <li key={index} className="flex items-center font-medium text-sm sm:text-base">
+                <span className="w-2 h-2 bg-blue-400 rounded-full shrink-0"></span>
                 <span className="ml-3">{service}</span>
               </li>
             ))}
           </ul>
         </div>
-
-        {/* CONTACT US */}
-        <div>
-          <h3 className="text-2xl font-bold mb-4">Contact Us</h3>
-
-          <div className="bg-white/10 p-6 rounded-xl space-y-4">
-            <p className="font-semibold text-lg">Domain@gmail.com</p>
-            <p className="font-semibold text-lg">(+0) 789345601</p>
-
-            <div className="flex justify-between text-sm mt-4">
+        <div className="sm:col-span-2 lg:col-span-1">
+          <h3 className="text-xl sm:text-2xl font-bold mb-4">Contact Us</h3>
+          <div className="bg-white/10 p-4 sm:p-6 rounded-xl space-y-4">
+            <p className="font-semibold text-base sm:text-lg break-all">Domain@gmail.com</p>
+            <p className="font-semibold text-base sm:text-lg">(+0) 789345601</p>
+            <div className="flex flex-wrap justify-between gap-2 text-sm mt-4">
               <span className="font-medium">Mon to Sat:</span>
               <span className="font-medium">9AM to 9PM</span>
             </div>
           </div>
         </div>
       </div>
-      <div className="border-t border-white border-opacity-20 mt-10 pt-6 text-center text-sm">
+      <div className="border-t border-white/20 mt-8 sm:mt-10 pt-6 text-center text-xs sm:text-sm">
         Copyright © 2025 All Rights Reserved.
       </div>
     </footer>

@@ -12,17 +12,17 @@ import AppointmentComponent from '../../components/common/AppointmentComponent'
 function Home() {
   useTitle("");
   return (
-    <div className='mx-6 my-4'>
+    <>
       <HeroSection />
       <About />
-      <OurServices limit={3}/>
+      <OurServices limit={3} />
       <WhyChooseUs />
       <OurTeam />
       <BeforeAfter />
       <Testimonials />
       <AppointmentComponent />
-    </div>
-  )
+    </>
+  );
 }
 
 export default Home

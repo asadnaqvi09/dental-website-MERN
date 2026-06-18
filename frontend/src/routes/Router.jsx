@@ -1,11 +1,15 @@
-import React from 'react'
-import AppRoutes from './AppRoutes'
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import AppRoutes from './AppRoutes';
+import AdminRoutes from './AdminRoutes';
+
 function Router() {
-  return (
-    <div>
-      <AppRoutes />
-    </div>
-  )
+    return (
+        <Routes>
+            <Route path="/admin/*" element={<AdminRoutes />} />
+            <Route path="/*" element={<AppRoutes />} />
+        </Routes>
+    );
 }
 
-export default Router
+export default Router;

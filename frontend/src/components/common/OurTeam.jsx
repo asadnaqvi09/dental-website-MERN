@@ -29,30 +29,28 @@ function OurTeam() {
     },
   ];
   return (
-    <section className="px-6 overflow-hidden">
-      <div className="text-center mb-20 max-w-2xl mx-auto px-4">
+    <section className="px-4 sm:px-6 overflow-hidden">
+      <div className="text-center mb-12 sm:mb-16 lg:mb-20 max-w-2xl mx-auto px-2">
         <div className="flex items-center justify-center gap-3 mb-4">
           <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
           <span className="text-sm text-blue-500 font-bold tracking-widest uppercase">
             Our Team
           </span>
         </div>
-        <h2 className="text-4xl font-bold text-center leading-tight">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center leading-tight">
           Trusted professionals creating smiles with expert care
         </h2>
       </div>
 
-      <div className="teamCards grid grid-cols-1 md:grid-cols-4 gap-4">
-        {
-          TeamMembers.map((member) => (
-            <TeamCard
-              key={member.id}
-              name={member.name}
-              role={member.role}
-              image={member.image}
-            />
-          ))
-        }
+      <div className="teamCards grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        {TeamMembers.map((member) => (
+          <TeamCard
+            key={member.id}
+            name={member.name}
+            role={member.role}
+            image={member.image}
+          />
+        ))}
       </div>
     </section>
   );

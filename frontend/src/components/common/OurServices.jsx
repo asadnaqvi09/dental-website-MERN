@@ -29,7 +29,7 @@ function OurServices({ limit = null }) {
   };
 
   return (
-    <section className="mb-12 bg-blue-500/10 rounded-3xl mb-12 py-16 px-4 sm:px-6 overflow-hidden">
+    <section className="mb-12 bg-blue-500/10 rounded-3xl py-16 px-4 sm:px-6 overflow-hidden">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -57,7 +57,7 @@ function OurServices({ limit = null }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4, duration: 0.9 }}
-          className="heading text-2xl sm:text-3xl md:text-5xl font-bold text-center text-black/90 max-w-3xl mx-auto leading-tight"
+          className="heading text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center text-black/90 max-w-3xl mx-auto leading-tight"
         >
           Complete dental services for a healthy smile
         </motion.h1>
@@ -71,7 +71,7 @@ function OurServices({ limit = null }) {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-6 lg:gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
         >
           {Array.isArray(services) && services.length > 0 ? (
             getServices().map((service) => (
@@ -80,12 +80,13 @@ function OurServices({ limit = null }) {
                   image={service.img_url}
                   title={service.category}
                   description={service.description}
-                  tags={service.tags}
+                  price={service.price}
+                  tags={service.subCat}
                 />
               </motion.div>
             ))
           ) : (
-            <p className="col-span-full text-center text-gray-500 py-10ECD">
+            <p className="col-span-full text-center text-gray-500 py-10">
               No services available
             </p>
           )}

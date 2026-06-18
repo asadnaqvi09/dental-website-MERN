@@ -75,7 +75,7 @@ function WhyChooseUs() {
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
-      className="text-white py-24 px-6 overflow-hidden relative rounded-3xl mb-12"
+      className="text-white py-16 sm:py-20 lg:py-24 px-4 sm:px-6 overflow-hidden relative rounded-3xl mb-12"
     >
       <div className="max-w-7xl mx-auto">
         <motion.div
@@ -83,7 +83,7 @@ function WhyChooseUs() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.9, ease: "easeOut" }}
-          className="text-center mb-20 max-w-3xl mx-auto"
+          className="text-center mb-12 sm:mb-16 lg:mb-20 max-w-3xl mx-auto px-2"
         >
           <motion.div
             initial={{ scaleX: 0 }}
@@ -101,14 +101,14 @@ function WhyChooseUs() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.5, duration: 0.9 }}
-            className="mt-4 text-4xl md:text-5xl font-bold leading-tight"
+            className="mt-4 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight"
           >
             Delivering gentle Dental Care with experience and trust
           </motion.h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-          <div className="flex flex-col justify-center space-y-32">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 items-center">
+          <div className="flex flex-col justify-center space-y-8 md:space-y-16 lg:space-y-32">
             {leftInfo.map((item, index) => (
               <motion.div
                 key={item.id}
@@ -162,11 +162,11 @@ function WhyChooseUs() {
             <LazyLoadImage
               src="https://demo.awaikenthemes.com/denture/wp-content/uploads/2025/09/why-choose-image.png"
               alt="Dental Implant"
-              className="w-full h-[600px] max-w-md object-contain drop-shadow-2xl"
+              className="w-full h-[280px] sm:h-[400px] lg:h-[600px] max-w-md object-contain drop-shadow-2xl"
             />
           </motion.div>
 
-          <div className="flex flex-col justify-center space-y-32">
+          <div className="flex flex-col justify-center space-y-8 md:space-y-16 lg:space-y-32">
             {rightInfo.map((item, index) => (
               <motion.div
                 key={item.id}

@@ -10,27 +10,25 @@ const SOCIALS = [
 
 function TeamCard({ image, name, role }) {
   return (
-    <div className="TeamCard group cursor-pointer">
-      <div className="relative z-10">
-        <div className="absolute right-6 -bottom-[270px] w-[100px] h-[80px]">
-          <svg
-            width="120"
-            height="110"
-            viewBox="0 0 120 110"
-            className="text-blue-500/10"
-          >
-            <path
-              d="M120 110L119.997 0C118.09 20.7821 116.824 29.4619 96.8899 39.0516C72.0309 47.1418 62.0724 48.3653 55.6605 67.7784C46.4567 96.6385 37.0413 109.035 0 109.995L2.20207 109.997L120 110Z"
-              fill="white"
-            />
-          </svg>
-          <div className="absolute top-16 left-16 flex justify-center items-center w-10 h-10 rounded-full bg-blue-600/80 hover:bg-black transition-transform duration-300 hover:scale-125 cursor-pointer">
-            <Share2Icon className="w-4 h-4 text-white" />
-          </div>
-        </div>
-      </div>
+    <div className="TeamCard group cursor-pointer w-full max-w-[275px] mx-auto">
       <div className="flex flex-col gap-2">
-        <div className="relative w-[275px] h-[300px] rounded-2xl flex justify-center items-end bg-blue-400/10 overflow-hidden">
+        <div className="relative w-full h-[260px] sm:h-[300px] rounded-2xl flex justify-center items-end bg-blue-400/10 overflow-hidden">
+          <div className="absolute bottom-0 right-0 w-[100px] h-[80px] hidden md:block">
+            <svg
+              width="120"
+              height="110"
+              viewBox="0 0 120 110"
+              className="text-blue-500/10"
+            >
+              <path
+                d="M120 110L119.997 0C118.09 20.7821 116.824 29.4619 96.8899 39.0516C72.0309 47.1418 62.0724 48.3653 55.6605 67.7784C46.4567 96.6385 37.0413 109.035 0 109.995L2.20207 109.997L120 110Z"
+                fill="white"
+              />
+            </svg>
+            <div className="absolute top-16 left-16 flex justify-center items-center w-10 h-10 rounded-full bg-blue-600/80 hover:bg-black transition-transform duration-300 hover:scale-125 cursor-pointer">
+              <Share2Icon className="w-4 h-4 text-white" />
+            </div>
+          </div>
           <div className="absolute hidden group-hover:flex bottom-[80px] right-[10px] flex-col gap-2 transition-transform duration-700 ease-out translate-y-2 group-hover:translate-y-0">
             {SOCIALS.map(({ icon: Icon, href, bg }, idx) => (
               <a
@@ -44,8 +42,7 @@ function TeamCard({ image, name, role }) {
               </a>
             ))}
           </div>
-
-          <div className="w-[175px] h-[250px]">
+          <div className="w-full max-w-[175px] h-[220px] sm:h-[250px]">
             <LazyLoadImage
               src={image}
               alt={name}
@@ -53,8 +50,7 @@ function TeamCard({ image, name, role }) {
             />
           </div>
         </div>
-
-        <div className="doctorInfo flex flex-col gap-2 mt-2 max-w-[200px]">
+        <div className="doctorInfo flex flex-col gap-2 mt-2 w-full">
           <h3 className="text-xl font-bold">{name}</h3>
           <p className="text-sm text-gray-500">{role}</p>
         </div>

@@ -10,17 +10,13 @@ const PageHero = ({ title, breadcrumb = "Home" }) => {
         backgroundImage: `url(${herobg})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        height: "65vh",
       }}
-      className="page-hero overflow-hidden text-white rounded-xl mb-12 relative"
+      className="page-hero overflow-hidden text-white rounded-xl mb-12 relative min-h-[40vh] sm:min-h-[50vh] lg:min-h-[65vh]"
     >
-      <div className="container h-full flex flex-col justify-center items-center relative z-10 text-center px-4">
-        <div
-          className="absolute w-[180px] h-[180px]"
-          style={{ top: "-10px", right: "40px" }}
-        >
+      <div className="h-full min-h-[inherit] flex flex-col justify-center items-center relative z-10 text-center px-4 py-12 sm:py-16">
+        <div className="absolute w-[100px] h-[100px] sm:w-[140px] sm:h-[140px] lg:w-[180px] lg:h-[180px] top-0 right-4 sm:right-10 lg:right-[40px] hidden sm:block pointer-events-none">
           <div
-            className="imgContainer"
+            className="imgContainer w-full h-full"
             style={{
               animation: "movestyle2 6s ease-in-out infinite alternate",
               rotate: "10deg",
@@ -33,25 +29,19 @@ const PageHero = ({ title, breadcrumb = "Home" }) => {
             />
           </div>
         </div>
-
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 animate-fade-in">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 px-2">
           {title}
         </h1>
-
-        <div className="breadcrumbs text-lg text-gray-200 font-medium flex gap-2 items-center">
+        <div className="breadcrumbs text-sm sm:text-lg text-gray-200 font-medium flex flex-wrap justify-center gap-2 items-center px-2">
           <NavLink to="/" className="hover:text-white transition">
             {breadcrumb}
           </NavLink>
           <span>/</span>
           <span className="text-white">{title}</span>
         </div>
-
-        <div
-          className="absolute w-[180px] h-[180px]"
-          style={{ bottom: "20px", left: "40px" }}
-        >
+        <div className="absolute w-[100px] h-[100px] sm:w-[140px] sm:h-[140px] lg:w-[180px] lg:h-[180px] bottom-4 left-4 sm:bottom-5 sm:left-10 lg:bottom-[20px] lg:left-[40px] hidden sm:block pointer-events-none">
           <div
-            className="imgContainer"
+            className="imgContainer w-full h-full"
             style={{
               animation: "movestyle1 6s ease-in-out infinite alternate",
               rotate: "-20deg",

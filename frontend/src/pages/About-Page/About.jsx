@@ -9,14 +9,14 @@ import Faq from '../../components/common/Faq'
 function About() {
   useTitle("About Us");
   return (
-    <div className='mx-6 my-4'>
+    <>
       <AboutHero />
       <AboutSection />
       <OurApproach />
       <WhyChooseUs />
       <Faq />
-    </div>
-  )
+    </>
+  );
 }
 
 export default About

@@ -9,19 +9,19 @@ const appointmentSchema = new mongoose.Schema({
     lastName: {
         type: String,
     },
-    email:{
+    email: {
         type: String,
         required: true,
         lowercase: true,
         trim: true,
         validate: {
-            validator: function(e){
+            validator: function(e) {
                 return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(e);
             },
             message: props => `${props.value} is not valid email address!`
         }
     },
-    phoneNo:{
+    phoneNo: {
         type: String,
         required: true
     },
@@ -37,9 +37,24 @@ const appointmentSchema = new mongoose.Schema({
     time: {
         type: String,
         required: true
-    }
-},{timestamps: true})
+    },
+    status: {
+        type: String,
+        enum: ['pending', 'confirmed', 'rejected', 'expired'],
+        default: 'pending'
+    },
+    adminNote: {
+        type: String,
+        default: ''
+    },
+    confirmedAt: Date,
+    rejectedAt: Date,
+}, { timestamps: true });
 
-appointmentSchema.index({ date: 1, time: 1 , ServiceCategory: 1}, { unique: true });
+appointmentSchema.index(
+    { date: 1, time: 1, ServiceCategory: 1 },
+    { unique: true, partialFilterExpression: { status: 'confirmed' } }
+);
+
 const Appointment = mongoose.model('Appointment', appointmentSchema);
 module.exports = Appointment;

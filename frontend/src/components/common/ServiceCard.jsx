@@ -1,7 +1,6 @@
 import React from "react";
-import { ArrowRight } from "lucide-react";
 
-function ServiceCard({ image, title, description, tags = [] }) {
+function ServiceCard({ image, title, description, price, tags = [] }) {
   const boxShapeStyle = {
     position: "absolute",
     right: "0",
@@ -12,10 +11,7 @@ function ServiceCard({ image, title, description, tags = [] }) {
 
   return (
     <div className="w-full flex justify-center p-4 sm:p-6">
-      <div
-        className="relative bg-white rounded-3xl p-8"
-        style={{ width: "380px", minHeight: "500px" }}
-      >
+      <div className="relative bg-white rounded-3xl p-6 sm:p-8 w-full max-w-[380px] min-h-[500px]">
         <div style={boxShapeStyle}>
           <svg
             width="120"
@@ -28,7 +24,7 @@ function ServiceCard({ image, title, description, tags = [] }) {
           </svg>
         </div>
         <div className="w-full flex justify-center mb-6 relative z-10">
-          <div className="w-[273px] h-[200px] flex items-center justify-center">
+          <div className="w-full max-w-[273px] h-[200px] flex items-center justify-center">
             <img
               src={image}
               alt={title}
@@ -37,14 +33,15 @@ function ServiceCard({ image, title, description, tags = [] }) {
           </div>
         </div>
         <div className="relative z-10">
-          <h3 className="text-[28px] font-bold text-gray-900 mb-3 leading-tight">
+          <h3 className="text-xl sm:text-[28px] font-bold text-gray-900 mb-3 leading-tight">
             {title}
           </h3>
-
+          {price && (
+            <p className="text-blue-600 font-bold text-lg mb-2">{price}</p>
+          )}
           <p className="text-gray-600 text-[15px] leading-relaxed mb-6">
             {description}
           </p>
-
           {tags.length > 0 && (
             <div className="flex flex-wrap gap-3 mt-3">
               {tags.map((tag, index) => (
@@ -58,7 +55,6 @@ function ServiceCard({ image, title, description, tags = [] }) {
             </div>
           )}
         </div>
-
         <button className="absolute bottom-1 right-0 bg-blue-600 hover:bg-white text-white hover:text-blue-600 w-14 h-14 flex items-center justify-center rounded-full shadow-md cursor-pointer hover:bg-blue-700 transition-all">
           <svg
             className="transition-transform duration-300 -rotate-30 hover:rotate-0"

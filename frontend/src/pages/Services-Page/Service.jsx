@@ -7,12 +7,12 @@ import Faq from '../../components/common/Faq';
 function Service() {
   useTitle("Services");
   return (
-    <div className='mx-6 my-4'>
+    <>
       <ServiceHero />
       <OurServices limit={null} />
       <Faq />
-    </div>
-  )
+    </>
+  );
 }
 
 export default Service

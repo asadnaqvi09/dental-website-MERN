@@ -2,21 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import ConfirmModal from '../../components/admin/ConfirmModal';
-import { fetchAdminContacts, deleteAdminContact } from '../../redux/features/Admin/adminContactSlice';
+import { fetchContacts, deleteContact } from '../../redux/features/contacts/contactsSlice';
 
 function AdminContacts() {
     const dispatch = useDispatch();
-    const { data, loading } = useSelector((state) => state.adminContacts);
+    const { data, loading } = useSelector((state) => state.contacts);
     const [viewContact, setViewContact] = useState(null);
     const [deleteId, setDeleteId] = useState(null);
 
     useEffect(() => {
-        dispatch(fetchAdminContacts());
+        dispatch(fetchContacts());
     }, [dispatch]);
 
     const handleDelete = () => {
         if (!deleteId) return;
-        dispatch(deleteAdminContact(deleteId))
+        dispatch(deleteContact(deleteId))
             .unwrap()
             .then(() => {
                 toast.success('Contact deleted');

@@ -1,8 +1,26 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../../components/shared/api';
 
-export const fetchAdminAppointments = createAsyncThunk(
-    'adminAppointments/fetchAll',
+const mergeAffected = (state, affected) => {
+    if (!Array.isArray(affected) || affected.length === 0) return;
+    const map = Object.fromEntries(affected.map((item) => [item._id, item]));
+    state.data = state.data.map((item) => map[item._id] || item);
+};
+
+export const createAppointment = createAsyncThunk(
+    'appointments/create',
+    async (data, { rejectWithValue }) => {
+        try {
+            const res = await api.post('/appointment/create-appointment', data);
+            return res.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data);
+        }
+    }
+);
+
+export const fetchAppointments = createAsyncThunk(
+    'appointments/fetchAll',
     async (status, { rejectWithValue }) => {
         try {
             const params = status ? { status } : {};
@@ -15,7 +33,7 @@ export const fetchAdminAppointments = createAsyncThunk(
 );
 
 export const confirmAppointment = createAsyncThunk(
-    'adminAppointments/confirm',
+    'appointments/confirm',
     async (id, { rejectWithValue }) => {
         try {
             const res = await api.patch(`/appointment/confirm-appointment/${id}`);
@@ -27,7 +45,7 @@ export const confirmAppointment = createAsyncThunk(
 );
 
 export const rejectAppointment = createAsyncThunk(
-    'adminAppointments/reject',
+    'appointments/reject',
     async ({ id, adminNote }, { rejectWithValue }) => {
         try {
             const res = await api.patch(`/appointment/reject-appointment/${id}`, { adminNote });
@@ -38,8 +56,8 @@ export const rejectAppointment = createAsyncThunk(
     }
 );
 
-export const deleteAdminAppointment = createAsyncThunk(
-    'adminAppointments/delete',
+export const deleteAppointment = createAsyncThunk(
+    'appointments/delete',
     async (id, { rejectWithValue }) => {
         try {
             await api.delete(`/appointment/delete-appointment/${id}`);
@@ -50,29 +68,44 @@ export const deleteAdminAppointment = createAsyncThunk(
     }
 );
 
-const adminAppointmentSlice = createSlice({
-    name: 'adminAppointments',
+const appointmentsSlice = createSlice({
+    name: 'appointments',
     initialState: {
         data: [],
         loading: false,
+        submitLoading: false,
         actionLoading: false,
         error: null,
+        adminFilter: 'pending',
     },
     reducers: {
-        clearAdminAppointmentError: (state) => {
+        clearAppointmentError: (state) => {
             state.error = null;
+        },
+        setAdminFilter: (state, action) => {
+            state.adminFilter = action.payload;
         },
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchAdminAppointments.pending, (state) => {
+            .addCase(createAppointment.pending, (state) => {
+                state.submitLoading = true;
+            })
+            .addCase(createAppointment.fulfilled, (state) => {
+                state.submitLoading = false;
+            })
+            .addCase(createAppointment.rejected, (state, action) => {
+                state.submitLoading = false;
+                state.error = action.payload || 'Failed to create appointment';
+            })
+            .addCase(fetchAppointments.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(fetchAdminAppointments.fulfilled, (state, action) => {
+            .addCase(fetchAppointments.fulfilled, (state, action) => {
                 state.loading = false;
                 state.data = action.payload;
             })
-            .addCase(fetchAdminAppointments.rejected, (state, action) => {
+            .addCase(fetchAppointments.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
@@ -81,9 +114,7 @@ const adminAppointmentSlice = createSlice({
             })
             .addCase(confirmAppointment.fulfilled, (state, action) => {
                 state.actionLoading = false;
-                state.data = state.data.map((item) =>
-                    item._id === action.payload._id ? action.payload : item
-                );
+                mergeAffected(state, action.payload.affected);
             })
             .addCase(confirmAppointment.rejected, (state, action) => {
                 state.actionLoading = false;
@@ -94,19 +125,17 @@ const adminAppointmentSlice = createSlice({
             })
             .addCase(rejectAppointment.fulfilled, (state, action) => {
                 state.actionLoading = false;
-                state.data = state.data.map((item) =>
-                    item._id === action.payload._id ? action.payload : item
-                );
+                mergeAffected(state, [action.payload]);
             })
             .addCase(rejectAppointment.rejected, (state, action) => {
                 state.actionLoading = false;
                 state.error = action.payload;
             })
-            .addCase(deleteAdminAppointment.fulfilled, (state, action) => {
+            .addCase(deleteAppointment.fulfilled, (state, action) => {
                 state.data = state.data.filter((item) => item._id !== action.payload);
             });
     },
 });
 
-export const { clearAdminAppointmentError } = adminAppointmentSlice.actions;
-export default adminAppointmentSlice.reducer;
+export const { clearAppointmentError, setAdminFilter } = appointmentsSlice.actions;
+export default appointmentsSlice.reducer;

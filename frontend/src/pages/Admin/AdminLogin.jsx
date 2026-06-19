@@ -5,20 +5,20 @@ import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { toast } from 'react-toastify';
-import { loginAdmin, clearAuthError } from '../../redux/features/Admin/authSlice';
+import { loginAdmin, clearAuthError } from '../../redux/features/auth/authSlice';
 import Denture from '../../assets/images/Denture_Logo.svg';
 
 function AdminLogin() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { loading, error, token } = useSelector((state) => state.auth);
+    const { loading, error, user, sessionChecked } = useSelector((state) => state.auth);
     const { register, handleSubmit } = useForm();
 
     useEffect(() => {
-        if (token) {
+        if (sessionChecked && user) {
             navigate('/admin/dashboard', { replace: true });
         }
-    }, [token, navigate]);
+    }, [user, sessionChecked, navigate]);
 
     useEffect(() => {
         if (error) {

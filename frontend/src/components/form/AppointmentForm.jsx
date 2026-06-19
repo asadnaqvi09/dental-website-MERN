@@ -1,12 +1,13 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import appointmentSchema from '../shared/appointmentSchema';
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useDispatch, useSelector } from 'react-redux';
-import { createAppointment } from '../../redux/features/Appointment/AppointmentSlice';
-import { fetchServices } from '../../redux/features/Service/ServiceSlice';
+import { createAppointment } from '../../redux/features/appointments/appointmentsSlice';
+import { fetchServices } from '../../redux/features/services/servicesSlice';
 import { toast } from 'react-toastify';
 import api from '../shared/api';
+import { socket } from '../../socket/socket';
 
 const TIME_SLOTS = [
     '10:00 AM',
@@ -21,7 +22,7 @@ const TIME_SLOTS = [
 function AppointmentForm() {
     const dispatch = useDispatch();
     const { data: services, loading: servicesLoading } = useSelector((state) => state.services);
-    const { loading: appointmentsLoading } = useSelector((state) => state.appointment);
+    const { submitLoading } = useSelector((state) => state.appointments);
     const {
         register,
         handleSubmit,
@@ -40,25 +41,34 @@ function AppointmentForm() {
         dispatch(fetchServices());
     }, [dispatch]);
 
+    const fetchSlots = useCallback(async () => {
+        if (!selectedDate || !selectedService) {
+            setSlotMap({});
+            return;
+        }
+        try {
+            const res = await api.get('/appointment/slot-availability', {
+                params: { date: selectedDate, serviceId: selectedService },
+            });
+            setSlotMap(res.data.data || {});
+        } catch {
+            setSlotMap({});
+        }
+    }, [selectedDate, selectedService]);
+
     useEffect(() => {
-        const fetchSlots = async () => {
-            if (!selectedDate || !selectedService) {
-                setSlotMap({});
-                return;
-            }
-            try {
-                const res = await api.get('/appointment/slot-availability', {
-                    params: { date: selectedDate, serviceId: selectedService },
-                });
-                setSlotMap(res.data.data || {});
-            } catch {
-                setSlotMap({});
+        fetchSlots();
+    }, [fetchSlots]);
+
+    useEffect(() => {
+        const onSlotsUpdated = ({ date, serviceId }) => {
+            if (date === selectedDate && serviceId === selectedService) {
+                fetchSlots();
             }
         };
-        fetchSlots();
-        const interval = setInterval(fetchSlots, 30000);
-        return () => clearInterval(interval);
-    }, [selectedDate, selectedService]);
+        socket.on('slots:updated', onSlotsUpdated);
+        return () => socket.off('slots:updated', onSlotsUpdated);
+    }, [selectedDate, selectedService, fetchSlots]);
 
     const getSlotLabel = (slot) => {
         const info = slotMap[slot];
@@ -186,8 +196,8 @@ function AppointmentForm() {
                         )}
                     </div>
                 </div>
-                    <button type="submit" disabled={appointmentsLoading} className="btn-primary w-full">
-                        {appointmentsLoading ? 'Submitting...' : 'Request Appointment'}
+                    <button type="submit" disabled={submitLoading} className="btn-primary w-full">
+                        {submitLoading ? 'Submitting...' : 'Request Appointment'}
                     </button>
             </form>
         </div>

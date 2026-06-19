@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../../components/shared/api';
 
-export const fetchAdminServices = createAsyncThunk(
-    'adminServices/fetchAll',
+export const fetchServices = createAsyncThunk(
+    'services/fetchAll',
     async (_, { rejectWithValue }) => {
         try {
             const res = await api.get('/services');
@@ -13,8 +13,8 @@ export const fetchAdminServices = createAsyncThunk(
     }
 );
 
-export const createAdminService = createAsyncThunk(
-    'adminServices/create',
+export const createService = createAsyncThunk(
+    'services/create',
     async (formData, { rejectWithValue }) => {
         try {
             const res = await api.post('/service', formData, {
@@ -27,8 +27,8 @@ export const createAdminService = createAsyncThunk(
     }
 );
 
-export const updateAdminService = createAsyncThunk(
-    'adminServices/update',
+export const updateService = createAsyncThunk(
+    'services/update',
     async ({ id, formData }, { rejectWithValue }) => {
         try {
             const res = await api.put(`/service/${id}`, formData, {
@@ -41,8 +41,8 @@ export const updateAdminService = createAsyncThunk(
     }
 );
 
-export const deleteAdminService = createAsyncThunk(
-    'adminServices/delete',
+export const deleteService = createAsyncThunk(
+    'services/delete',
     async (id, { rejectWithValue }) => {
         try {
             await api.delete(`/service/${id}`);
@@ -53,8 +53,8 @@ export const deleteAdminService = createAsyncThunk(
     }
 );
 
-const adminServiceSlice = createSlice({
-    name: 'adminServices',
+const servicesSlice = createSlice({
+    name: 'services',
     initialState: {
         data: [],
         loading: false,
@@ -64,45 +64,45 @@ const adminServiceSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(fetchAdminServices.pending, (state) => {
+            .addCase(fetchServices.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(fetchAdminServices.fulfilled, (state, action) => {
+            .addCase(fetchServices.fulfilled, (state, action) => {
                 state.loading = false;
                 state.data = action.payload;
             })
-            .addCase(fetchAdminServices.rejected, (state, action) => {
+            .addCase(fetchServices.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
-            .addCase(createAdminService.pending, (state) => {
+            .addCase(createService.pending, (state) => {
                 state.actionLoading = true;
             })
-            .addCase(createAdminService.fulfilled, (state, action) => {
+            .addCase(createService.fulfilled, (state, action) => {
                 state.actionLoading = false;
                 state.data.push(action.payload);
             })
-            .addCase(createAdminService.rejected, (state, action) => {
+            .addCase(createService.rejected, (state, action) => {
                 state.actionLoading = false;
                 state.error = action.payload;
             })
-            .addCase(updateAdminService.pending, (state) => {
+            .addCase(updateService.pending, (state) => {
                 state.actionLoading = true;
             })
-            .addCase(updateAdminService.fulfilled, (state, action) => {
+            .addCase(updateService.fulfilled, (state, action) => {
                 state.actionLoading = false;
                 state.data = state.data.map((item) =>
                     item._id === action.payload._id ? action.payload : item
                 );
             })
-            .addCase(updateAdminService.rejected, (state, action) => {
+            .addCase(updateService.rejected, (state, action) => {
                 state.actionLoading = false;
                 state.error = action.payload;
             })
-            .addCase(deleteAdminService.fulfilled, (state, action) => {
+            .addCase(deleteService.fulfilled, (state, action) => {
                 state.data = state.data.filter((item) => item._id !== action.payload);
             });
     },
 });
 
-export default adminServiceSlice.reducer;
+export default servicesSlice.reducer;

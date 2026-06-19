@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { LogOut } from 'lucide-react';
-import { logoutAdmin } from '../../redux/features/Admin/authSlice';
+import { logoutAdmin } from '../../redux/features/auth/authSlice';
 import { toast } from 'react-toastify';
 import Denture from '../../assets/images/Denture_Logo.svg';
 

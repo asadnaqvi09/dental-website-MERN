@@ -3,7 +3,7 @@ import contactSchema from "../shared/contactSchema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDispatch, useSelector } from "react-redux";
-import { createContact } from "../../redux/features/Contact/ContactSlice";
+import { createContact } from "../../redux/features/contacts/contactsSlice";
 import { toast } from "react-toastify";
 
 function ContactForm() {
@@ -11,7 +11,7 @@ function ContactForm() {
   const [successMsg, setSuccessMsg] = useState("");
 
   const { loading: contactLoading, error } = useSelector(
-    (state) => state.contact
+    (state) => state.contacts
   );
 
   const {

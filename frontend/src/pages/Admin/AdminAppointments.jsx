@@ -3,17 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import ConfirmModal from '../../components/admin/ConfirmModal';
 import {
-    fetchAdminAppointments,
+    fetchAppointments,
     confirmAppointment,
     rejectAppointment,
-    deleteAdminAppointment,
-} from '../../redux/features/Admin/adminAppointmentSlice';
+    deleteAppointment,
+    setAdminFilter,
+} from '../../redux/features/appointments/appointmentsSlice';
 
 const tabs = [
     { key: '', label: 'All' },
     { key: 'pending', label: 'Pending' },
     { key: 'confirmed', label: 'Confirmed' },
     { key: 'rejected', label: 'Rejected' },
+    { key: 'expired', label: 'Expired' },
 ];
 
 const statusStyles = {
@@ -25,15 +27,21 @@ const statusStyles = {
 
 function AdminAppointments() {
     const dispatch = useDispatch();
-    const { data, loading, actionLoading } = useSelector((state) => state.adminAppointments);
+    const { data: allAppointments, loading, actionLoading } = useSelector((state) => state.appointments);
     const [activeTab, setActiveTab] = useState('pending');
     const [rejectModal, setRejectModal] = useState(null);
     const [rejectNote, setRejectNote] = useState('');
     const [deleteId, setDeleteId] = useState(null);
 
     useEffect(() => {
-        dispatch(fetchAdminAppointments(activeTab || undefined));
+        dispatch(setAdminFilter(activeTab));
+        dispatch(fetchAppointments());
     }, [dispatch, activeTab]);
+
+    const data = useMemo(() => {
+        if (!activeTab) return allAppointments;
+        return allAppointments.filter((a) => a.status === activeTab);
+    }, [allAppointments, activeTab]);
 
     const conflictMap = useMemo(() => {
         const map = {};
@@ -54,7 +62,7 @@ function AdminAppointments() {
             .unwrap()
             .then(() => {
                 toast.success('Appointment confirmed');
-                dispatch(fetchAdminAppointments(activeTab || undefined));
+                dispatch(fetchAppointments());
             })
             .catch((err) => toast.error(err));
     };
@@ -67,14 +75,14 @@ function AdminAppointments() {
                 toast.success('Appointment rejected');
                 setRejectModal(null);
                 setRejectNote('');
-                dispatch(fetchAdminAppointments(activeTab || undefined));
+                dispatch(fetchAppointments());
             })
             .catch((err) => toast.error(err));
     };
 
     const handleDelete = () => {
         if (!deleteId) return;
-        dispatch(deleteAdminAppointment(deleteId))
+        dispatch(deleteAppointment(deleteId))
             .unwrap()
             .then(() => {
                 toast.success('Appointment deleted');

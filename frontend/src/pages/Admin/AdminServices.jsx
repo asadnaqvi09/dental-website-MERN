@@ -4,26 +4,26 @@ import { toast } from 'react-toastify';
 import ConfirmModal from '../../components/admin/ConfirmModal';
 import ServiceFormModal from '../../components/admin/ServiceFormModal';
 import {
-    fetchAdminServices,
-    createAdminService,
-    updateAdminService,
-    deleteAdminService,
-} from '../../redux/features/Admin/adminServiceSlice';
+    fetchServices,
+    createService,
+    updateService,
+    deleteService,
+} from '../../redux/features/services/servicesSlice';
 
 function AdminServices() {
     const dispatch = useDispatch();
-    const { data, loading, actionLoading } = useSelector((state) => state.adminServices);
+    const { data, loading, actionLoading } = useSelector((state) => state.services);
     const [modalOpen, setModalOpen] = useState(false);
     const [editService, setEditService] = useState(null);
     const [deleteId, setDeleteId] = useState(null);
 
     useEffect(() => {
-        dispatch(fetchAdminServices());
+        dispatch(fetchServices());
     }, [dispatch]);
 
     const handleSubmit = (formData) => {
         if (editService) {
-            dispatch(updateAdminService({ id: editService._id, formData }))
+            dispatch(updateService({ id: editService._id, formData }))
                 .unwrap()
                 .then(() => {
                     toast.success('Service updated');
@@ -32,7 +32,7 @@ function AdminServices() {
                 })
                 .catch((err) => toast.error(err));
         } else {
-            dispatch(createAdminService(formData))
+            dispatch(createService(formData))
                 .unwrap()
                 .then(() => {
                     toast.success('Service created');
@@ -44,7 +44,7 @@ function AdminServices() {
 
     const handleDelete = () => {
         if (!deleteId) return;
-        dispatch(deleteAdminService(deleteId))
+        dispatch(deleteService(deleteId))
             .unwrap()
             .then(() => {
                 toast.success('Service deleted');

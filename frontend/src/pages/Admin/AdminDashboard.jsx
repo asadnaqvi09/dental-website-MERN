@@ -2,20 +2,20 @@ import React, { useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import AdminStatCard from '../../components/admin/AdminStatCard';
-import { fetchAdminAppointments } from '../../redux/features/Admin/adminAppointmentSlice';
-import { fetchAdminContacts } from '../../redux/features/Admin/adminContactSlice';
-import { fetchAdminServices } from '../../redux/features/Admin/adminServiceSlice';
+import { fetchAppointments } from '../../redux/features/appointments/appointmentsSlice';
+import { fetchContacts } from '../../redux/features/contacts/contactsSlice';
+import { fetchServices } from '../../redux/features/services/servicesSlice';
 
 function AdminDashboard() {
     const dispatch = useDispatch();
-    const { data: appointments } = useSelector((state) => state.adminAppointments);
-    const { data: contacts } = useSelector((state) => state.adminContacts);
-    const { data: services } = useSelector((state) => state.adminServices);
+    const { data: appointments } = useSelector((state) => state.appointments);
+    const { data: contacts } = useSelector((state) => state.contacts);
+    const { data: services } = useSelector((state) => state.services);
 
     useEffect(() => {
-        dispatch(fetchAdminAppointments());
-        dispatch(fetchAdminContacts());
-        dispatch(fetchAdminServices());
+        dispatch(fetchAppointments());
+        dispatch(fetchContacts());
+        dispatch(fetchServices());
     }, [dispatch]);
 
     const stats = useMemo(() => {

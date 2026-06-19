@@ -1,6 +1,10 @@
-const express = require('express');
-const connectDB = require('./config/db');
 const dotEnv = require('dotenv');
+dotEnv.config();
+
+const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io');
+const connectDB = require('./config/db');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
@@ -11,18 +15,37 @@ const userRoutes = require('./routes/userRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
 const morgan = require('morgan');
+const { startExpireJob } = require('./jobs/expireAppointments');
+
 const app = express();
+const server = http.createServer(app);
 const PORT = process.env.PORT || 4000;
 
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
-app.use(cors(
-    {
-        origin: ["http://localhost:5173", "https://denture-dental-clinic.vercel.app"],
-        methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+const allowedOrigins = [
+    'http://localhost:5173',
+    'https://denture-dental-clinic.vercel.app',
+];
+if (process.env.FRONTEND_URL) {
+    allowedOrigins.push(process.env.FRONTEND_URL);
+}
+
+const io = new Server(server, {
+    cors: {
+        origin: allowedOrigins,
+        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
         credentials: true,
-    }
-));
+    },
+});
+
+app.set('io', io);
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors({
+    origin: allowedOrigins,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    credentials: true,
+}));
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(helmet());
@@ -34,14 +57,19 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 app.use(hpp());
-dotEnv.config();
+
 connectDB();
+startExpireJob(io);
+
+app.get('/health', (req, res) => {
+    res.status(200).json({ success: true, message: 'Server is healthy' });
+});
 
 app.use('/api/v1', serviceRoutes);
 app.use('/api/v1/auth', userRoutes);
 app.use('/api/v1/contact', contactRoutes);
 app.use('/api/v1/appointment', appointmentRoutes);
 
-app.listen(PORT, ()=>{
+server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
-})
+});

@@ -50,11 +50,25 @@ const adminLogin = async (req, res) => {
                 email: adminUser.email,
                 role: adminUser.role,
             },
-            token,
         });
     } catch (error) {
         console.error('Admin Login Error:', error);
         response.error(res, 'Error in Admin Login Controller', 500);
+    }
+};
+
+const getMe = async (req, res) => {
+    try {
+        response.success(res, 'Admin session active', {
+            user: {
+                id: req.user._id,
+                userName: req.user.userName,
+                email: req.user.email,
+                role: req.user.role,
+            },
+        });
+    } catch (error) {
+        response.error(res, 'Error fetching admin session', 500);
     }
 };
 
@@ -74,5 +88,6 @@ const Logout = async (req, res) => {
 
 module.exports = {
     adminLogin,
+    getMe,
     Logout,
 };

@@ -73,6 +73,9 @@ const createService = async (req, res) => {
       price,
     });
 
+    const io = req.app.get('io');
+    io?.emit('services:changed', { action: 'create', service: newService });
+
     res.status(201).json({
       success: true,
       message: `${category} created successfully`,
@@ -131,6 +134,9 @@ const updateServiceByID = async (req, res) => {
       new: true,
     });
 
+    const io = req.app.get('io');
+    io?.emit('services:changed', { action: 'update', service: updatedService });
+
     res.status(200).json({
       success: true,
       message: `${updatedService.category} updated successfully`,
@@ -155,6 +161,10 @@ const deleteServiceByID = async (req, res) => {
       await cloudinary.uploader.destroy(service.imagePublicId);
     }
     await service.deleteOne();
+
+    const io = req.app.get('io');
+    io?.emit('services:changed', { action: 'delete', serviceId: id });
+
     res.status(200).json({
       success: true,
       message: `${service.category} deleted successfully`,

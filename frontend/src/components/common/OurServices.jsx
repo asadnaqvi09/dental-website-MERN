@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchServices } from "../../redux/features/Service/ServiceSlice";
+import { fetchServices } from "../../redux/features/services/servicesSlice";
 import ServiceCard from "./ServiceCard";
 import { motion } from "framer-motion";
 

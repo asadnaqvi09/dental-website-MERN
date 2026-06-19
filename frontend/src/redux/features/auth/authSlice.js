@@ -13,29 +13,36 @@ export const loginAdmin = createAsyncThunk(
     }
 );
 
+export const fetchCurrentAdmin = createAsyncThunk(
+    'auth/me',
+    async (_, { rejectWithValue }) => {
+        try {
+            const res = await api.get('/auth/me');
+            return res.data.data.user;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || 'Not authenticated');
+        }
+    }
+);
+
 export const logoutAdmin = createAsyncThunk(
     'auth/logout',
     async (_, { rejectWithValue }) => {
         try {
             await api.post('/auth/logout');
-            localStorage.removeItem('token');
-            localStorage.removeItem('adminUser');
             return null;
         } catch (error) {
-            localStorage.removeItem('token');
-            localStorage.removeItem('adminUser');
             return rejectWithValue(error.response?.data?.message || 'Logout failed');
         }
     }
 );
 
-const storedUser = localStorage.getItem('adminUser');
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
-        user: storedUser ? JSON.parse(storedUser) : null,
-        token: localStorage.getItem('token') || null,
+        user: null,
         loading: false,
+        sessionChecked: false,
         error: null,
     },
     reducers: {
@@ -52,17 +59,30 @@ const authSlice = createSlice({
             .addCase(loginAdmin.fulfilled, (state, action) => {
                 state.loading = false;
                 state.user = action.payload.data.user;
-                state.token = action.payload.data.token;
-                localStorage.setItem('token', action.payload.data.token);
-                localStorage.setItem('adminUser', JSON.stringify(action.payload.data.user));
+                state.sessionChecked = true;
             })
             .addCase(loginAdmin.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
+            .addCase(fetchCurrentAdmin.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(fetchCurrentAdmin.fulfilled, (state, action) => {
+                state.loading = false;
+                state.user = action.payload;
+                state.sessionChecked = true;
+            })
+            .addCase(fetchCurrentAdmin.rejected, (state) => {
+                state.loading = false;
+                state.user = null;
+                state.sessionChecked = true;
+            })
             .addCase(logoutAdmin.fulfilled, (state) => {
                 state.user = null;
-                state.token = null;
+            })
+            .addCase(logoutAdmin.rejected, (state) => {
+                state.user = null;
             });
     },
 });

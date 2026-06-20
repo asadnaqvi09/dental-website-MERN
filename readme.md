@@ -41,7 +41,25 @@ A professional full-stack dental clinic application built with the **MERN Stack*
 
 ## ⚙️ Installation & Setup
 
-### 1. Clone Repository
+```
+denture-dental-clinic/
+├── backend/          # Express API, models, controllers, cron jobs
+├── frontend/         # React client + admin panel
+└── readme.md
+```
+
+---
+
+## Getting Started
+
+### Prerequisites
+- Node.js 18+
+- MongoDB Atlas (or local MongoDB)
+- Cloudinary account
+- SMTP credentials (e.g. Gmail App Password)
+
+### 1. Clone the repository
+
 ```bash
 git clone https://github.com/your-username/denture-dental-clinic.git
 cd denture-dental-clinic

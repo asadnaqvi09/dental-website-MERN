@@ -1,104 +1,230 @@
-## 🦷 Denture Dental Clinic (MERN Stack Project)
+# Denture Dental Clinic
 
-A professional full-stack dental clinic application built with the **MERN Stack**. This platform streamlines patient-to-clinic interactions by offering service discovery, intelligent appointment scheduling, and automated inquiry management.
+A full-stack dental clinic web application built with the **MERN stack**. It connects patients to the clinic through a modern marketing site, smart appointment booking, and a secure admin panel for day-to-day operations.
 
----
-
-## 🌐 Live Demo
-- **Frontend:** [Link Placeholder]
-- **Backend API:** [Link Placeholder]
+**Live Demo**
+- Frontend: https://denture-dental-clinic.vercel.app
+- Backend API: _[add your deployed API URL]_
 
 ---
 
-## 📌 Features
+## Overview
 
-### 👨‍⚕️ Patient Features
-* **Service Catalog:** Browse dental treatments with detailed pricing and descriptions.
-* **Smart Booking:** Interactive date/time selection with **slot collision prevention**.
-* **Inquiry System:** Contact form for direct patient-to-clinic communication.
-* **Live Validation:** Real-time feedback using **Zod** and **React Hook Form**.
-* **Action Feedback:** Dynamic toast notifications for booking and messaging states.
+Denture Dental Clinic streamlines how a dental practice handles online presence and patient intake:
 
-### ⚙️ Backend & Security
-* **RESTful Architecture:** Structured API design with consistent JSON responses.
-* **Security Layers:** Protected by **Helmet**, **Rate Limiting**, **HPP**, and **CORS**.
-* **Data Integrity:** Multi-layer input sanitization and Zod schema validation.
-* **Automation:** Instant email notifications via **Nodemailer**.
-* **Media Management:** Robust image handling through **Multer** and **Cloudinary**.
-* **Auth:** JWT-based protection for administrative endpoints.
+- Patients browse services, learn about the clinic, send inquiries, and request appointments online.
+- The clinic reviews pending requests, confirms or rejects slots, manages services, and tracks contact messages from a protected admin dashboard.
+- Booking slots stay accurate in real time via WebSockets, with collision prevention and automated email notifications.
 
 ---
 
-## 🛠 Tech Stack
+## Features
+
+### Patient-facing website
+- **Marketing pages:** Home, About, Services, Contact, and Book Appointment
+- **Service catalog:** Browse treatments with pricing, descriptions, sub-categories, and images
+- **Smart booking:** Date/service-based slot picker with live availability (`Available`, `Under review`, `Booked`)
+- **Contact form:** Direct patient-to-clinic messaging with validation and success feedback
+- **Polished UI:** Framer Motion page transitions, responsive Tailwind layout, testimonials, before/after showcase, and team section
+
+### Appointment system
+- **Request-based workflow:** New bookings start as `pending` until admin approval
+- **Slot collision prevention:** Confirmed slots are unique per date/time/service (MongoDB partial unique index)
+- **Conflict handling:** When one pending request is confirmed, competing requests for the same slot are auto-rejected
+- **Status lifecycle:** `pending` → `confirmed` | `rejected` | `expired`
+- **Auto-expiry:** Hourly cron job marks past pending appointments as `expired`
+- **Email notifications:** Patients and admin receive emails on request, confirmation, rejection, and decline
+
+### Admin panel (`/admin`)
+- **Secure login:** JWT stored in HTTP-only cookies
+- **Dashboard:** Pending/confirmed counts, today's confirmed appointments, total contacts and services
+- **Appointments:** Filter by status, detect slot conflicts, confirm/reject with notes, delete records
+- **Contacts:** View and delete inquiry messages
+- **Services:** Create, update, and delete services with image upload (Multer + Cloudinary)
+
+### Backend & security
+- RESTful API with consistent `{ success, data/error }` responses
+- **Helmet**, **rate limiting**, **HPP**, and **CORS** protection
+- **Zod** + **Validator** input validation and sanitization
+- **Socket.io** for real-time updates across admin and booking UI
+- **Nodemailer** for transactional emails
+
+---
+
+## Tech Stack
 
 | Layer | Technologies |
-| :--- | :--- |
-| **Frontend** | React (Vite), Redux Toolkit, Framer Motion, Axios, React Toastify |
-| **Backend** | Node.js, Express.js, MongoDB, Mongoose |
-| **DevOps/Tools** | JWT, Nodemailer, Multer, Cloudinary, Zod, Validator |
+|-------|--------------|
+| **Frontend** | React 19, Vite, Redux Toolkit, React Router, Tailwind CSS, Framer Motion, React Hook Form, Zod, Axios, Socket.io Client |
+| **Backend** | Node.js, Express 5, MongoDB, Mongoose, Socket.io, JWT, Nodemailer, Multer, Cloudinary, Node-cron |
+| **Security & validation** | Helmet, express-rate-limit, HPP, CORS, Zod, Validator, bcryptjs |
 
 ---
 
-## ⚙️ Installation & Setup
+## Project Structure
 
-### 1. Clone Repository
+```
+denture-dental-clinic/
+├── backend/          # Express API, models, controllers, cron jobs
+├── frontend/         # React client + admin panel
+└── readme.md
+```
+
+---
+
+## Getting Started
+
+### Prerequisites
+- Node.js 18+
+- MongoDB Atlas (or local MongoDB)
+- Cloudinary account
+- SMTP credentials (e.g. Gmail App Password)
+
+### 1. Clone the repository
+
 ```bash
 git clone https://github.com/your-username/denture-dental-clinic.git
 cd denture-dental-clinic
 ```
 
-### 2. Backend Configuration
-Navigate to the server directory and install dependencies:
+### 2. Backend setup
+
 ```bash
-cd BackEnd
+cd backend
 npm install
 ```
-Create a `.env` file in the `BackEnd` folder:
+
+Create `backend/.env`:
+
 ```env
 PORT=4000
-db_name=your_db_name
-db_password=your_password
-JWT_SECRET=your_secret
-ADMIN_EMAIL=your_email
-ADMIN_PASSWORD=your_password
-cloudinary_cloud=xxx
-cloudinary_api_key=xxx
-cloudinary_api_secret=xxx
-SMTP_EMAILS=your_email
-SMTP_APP_PASSWORDS=your_app_password
-```
-Start the server: `npm run dev`
+NODE_ENV=development
 
-### 3. Frontend Configuration
-Navigate to the client directory and install dependencies:
+# MongoDB
+db_name=your_db_name
+db_password=your_db_password
+
+# Auth
+JWT_SECRET=your_jwt_secret
+ADMIN_EMAIL=your_admin_email
+ADMIN_PASSWORD=your_admin_password
+
+# Cloudinary
+cloudinary_cloud=your_cloud_name
+cloudinary_api_key=your_api_key
+cloudinary_api_secret=your_api_secret
+
+# Email (SMTP)
+SMTP_EMAILS=your_smtp_email
+SMTP_APP_PASSWORDS=your_app_password
+
+# Optional (production CORS)
+FRONTEND_URL=https://your-frontend-url.vercel.app
+```
+
+Start the API:
+
 ```bash
-cd ../FrontEnd
+npm run dev
+```
+
+### 3. Frontend setup
+
+```bash
+cd ../frontend
 npm install
 ```
-Create a `.env` file in the `FrontEnd` folder:
+
+Create `frontend/.env`:
+
 ```env
 VITE_API_URL=http://localhost:4000/api/v1
+VITE_SOCKET_URL=http://localhost:4000
 ```
-Start the application: `npm run dev`
+
+Start the client:
+
+```bash
+npm run dev
+```
+
+Open:
+- Public site: `http://localhost:5173`
+- Admin login: `http://localhost:5173/admin/login`
 
 ---
 
-## 🔗 Key API Endpoints
+## API Endpoints
 
-| Resource | Endpoint | Method |
-| :--- | :--- | :--- |
-| **Services** | `/api/v1/services` | `GET` |
-| **Appointments** | `/api/v1/appointment/create-appointment` | `POST` |
-| **Admin View** | `/api/v1/appointment/get-appointment` | `GET (Protected)` |
-| **Inquiries** | `/api/v1/contact/create-contact` | `POST` |
-| **Auth** | `/api/v1/auth/login` | `POST` |
+| Resource | Endpoint | Method | Access |
+|----------|----------|--------|--------|
+| Health check | `/health` | GET | Public |
+| Services list | `/api/v1/services` | GET | Public |
+| Create service | `/api/v1/service` | POST | Admin |
+| Update service | `/api/v1/service/:id` | PUT | Admin |
+| Delete service | `/api/v1/service/:id` | DELETE | Admin |
+| Create appointment | `/api/v1/appointment/create-appointment` | POST | Public |
+| Slot availability | `/api/v1/appointment/slot-availability` | GET | Public |
+| List appointments | `/api/v1/appointment/get-appointment` | GET | Admin |
+| Confirm appointment | `/api/v1/appointment/confirm-appointment/:id` | PATCH | Admin |
+| Reject appointment | `/api/v1/appointment/reject-appointment/:id` | PATCH | Admin |
+| Delete appointment | `/api/v1/appointment/delete-appointment/:id` | DELETE | Admin |
+| Create contact | `/api/v1/contact/create-contact` | POST | Public |
+| List contacts | `/api/v1/contact/get-contacts` | GET | Admin |
+| Delete contact | `/api/v1/contact/delete-contact/:id` | DELETE | Admin |
+| Admin login | `/api/v1/auth/login` | POST | Public |
+| Admin session | `/api/v1/auth/me` | GET | Admin |
+| Admin logout | `/api/v1/auth/logout` | POST | Admin |
 
 ---
 
-## 🚀 Future Roadmap
-* **Full Admin Dashboard:** UI for managing appointments and service listings.
-* **Real-time Availability:** WebSocket integration for live slot updates.
-* **Payment Gateway:** Integration for online consultation fees.
-* **Calendar View:** Enhanced UI for intuitive appointment management.
+## How appointment booking works
 
-**Developed By:** Treo Studios (Asad Abbas)
+1. Patient selects a service, date, and time slot.
+2. Frontend fetches slot availability and listens for real-time `slots:updated` events.
+3. Booking is saved as **pending** (multiple patients can request the same slot).
+4. Admin reviews pending requests and confirms one; others for that slot are auto-rejected.
+5. Both patient and admin receive email updates.
+6. Past pending requests are automatically marked **expired** by a scheduled job.
+
+---
+
+## Service categories
+
+- Pediatric Dentistry
+- Orthodontics
+- Precision Dentures
+- Cosmetic Dentistry
+- Restorative Dentistry
+- Specialized Services
+
+---
+
+## Screenshots
+
+_Add screenshots here:_
+- Home page
+- Appointment booking with slot status
+- Admin dashboard
+- Admin appointments panel
+
+---
+
+## Future enhancements
+
+- Online payment integration for consultations
+- Calendar view for appointment management
+- Patient account portal and appointment history
+- SMS reminders alongside email notifications
+
+---
+
+## Author
+
+**Treo Studios — Asad Abbas**
+
+---
+
+## License
+
+This project is for portfolio and educational use. Add your preferred license if open-sourcing.

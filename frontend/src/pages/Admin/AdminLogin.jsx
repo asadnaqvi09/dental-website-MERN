@@ -33,6 +33,9 @@ function AdminLogin() {
             .then(() => {
                 toast.success('Welcome back!');
                 navigate('/admin/dashboard');
+            })
+            .catch((err) => {
+                toast.error(err || 'Invalid credentials');
             });
     };
 
@@ -51,15 +54,17 @@ function AdminLogin() {
                 <p className="text-gray-600 text-center mb-8">Sign in to manage your clinic</p>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                     <input
-                        {...register('email', { required: true })}
-                        type="email"
-                        placeholder="Admin Email"
+                        {...register('userName', { required: true })}
+                        type="text"
+                        placeholder="Username"
+                        autoComplete="username"
                         className="w-full px-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none"
                     />
                     <input
                         {...register('password', { required: true })}
                         type="password"
                         placeholder="Password"
+                        autoComplete="current-password"
                         className="w-full px-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none"
                     />
                     <button type="submit" disabled={loading} className="btn-primary w-full">

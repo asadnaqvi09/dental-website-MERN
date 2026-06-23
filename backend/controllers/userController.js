@@ -4,37 +4,34 @@ const response = require('../utilis/response');
 
 const adminLogin = async (req, res) => {
     try {
-        const { email, password } = req.body;
-        const adminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
+        const { userName, password } = req.body;
+        const adminUsername = process.env.ADMIN_USERNAME?.trim();
         const adminPassword = process.env.ADMIN_PASSWORD?.trim();
-        if (!email || !password) {
-            return response.error(res, 'Please provide email and password', 400);
+        const adminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
+
+        if (!userName || !password) {
+            return response.error(res, 'Please provide username and password', 400);
         }
-        if (!adminEmail || !adminPassword) {
+        if (!adminUsername || !adminPassword || !adminEmail) {
             return response.error(res, 'Admin credentials not configured on server', 500);
         }
-        const normalizedEmail = email.trim().toLowerCase();
-        if (normalizedEmail !== adminEmail) {
-            return response.error(res, 'Access denied: Invalid admin email', 401);
+        if (userName.trim() !== adminUsername || password !== adminPassword) {
+            return response.error(res, 'Invalid credentials', 401);
         }
-        let adminUser = await User.findOne({ email: adminEmail });
+
+        let adminUser = await User.findOne({ userName: adminUsername });
+        if (!adminUser) {
+            adminUser = await User.findOne({ email: adminEmail, role: 'admin' });
+        }
         if (!adminUser) {
             adminUser = await User.create({
-                userName: 'Super Admin',
+                userName: adminUsername,
                 email: adminEmail,
                 password: adminPassword,
                 role: 'admin',
             });
-        } else {
-            const isMatch = await adminUser.matchPassword(password);
-            if (!isMatch) {
-                if (password !== adminPassword) {
-                    return response.error(res, 'Invalid credentials', 401);
-                }
-                adminUser.password = adminPassword;
-                await adminUser.save();
-            }
         }
+
         const token = generateToken(adminUser._id);
         const isProduction = process.env.NODE_ENV === 'production';
         res.cookie('token', token, {

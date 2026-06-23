@@ -21,25 +21,27 @@ const app = express();
 const server = http.createServer(app);
 const PORT = process.env.PORT || 4000;
 
-const allowedOrigins = process.env.FRONTEND_URL;
+const allowedOrigins = [
+    'http://localhost:5173',
+    process.env.FRONTEND_URL?.replace(/\/$/, ''),
+].filter(Boolean);
+
+const corsOptions = {
+    origin: allowedOrigins,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    credentials: true,
+};
 
 const io = new Server(server, {
-    cors: {
-        origin: allowedOrigins,
-        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-        credentials: true,
-    },
+    cors: corsOptions,
 });
 
 app.set('io', io);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({
-    origin: allowedOrigins,
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-    credentials: true,
-}));
+app.use(cors(corsOptions));
+app.set('trust proxy', 1);
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(helmet());

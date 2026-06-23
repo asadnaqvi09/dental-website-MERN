@@ -109,6 +109,7 @@ db_password=your_db_password
 JWT_SECRET=your_jwt_secret
 ADMIN_EMAIL=your_admin_email
 ADMIN_PASSWORD=your_admin_password
+ADMIN_USERNAME=your_admin_username
 
 # Cloudinary
 cloudinary_cloud=your_cloud_name

@@ -21,13 +21,7 @@ const app = express();
 const server = http.createServer(app);
 const PORT = process.env.PORT || 4000;
 
-const allowedOrigins = [
-    'http://localhost:5173',
-    'https://denture-dental-clinic.vercel.app',
-];
-if (process.env.FRONTEND_URL) {
-    allowedOrigins.push(process.env.FRONTEND_URL);
-}
+const allowedOrigins = process.env.FRONTEND_URL;
 
 const io = new Server(server, {
     cors: {

@@ -3,8 +3,7 @@
 A full-stack dental clinic web application built with the **MERN stack**. It connects patients to the clinic through a modern marketing site, smart appointment booking, and a secure admin panel for day-to-day operations.
 
 **Live Demo**
-- **Frontend:** [https://denture-dental-clinic.vercel.app](https://denture-dental-clinic.vercel.app)
-- **Backend API:** _[add your Render URL after deployment]_
+- **Frontend:** https://dental-website-mern.vercel.app/
 
 ---
 
